@@ -19,7 +19,6 @@ jobs:
     name: Build and deploy NuGet
     runs-on: ubuntu-latest    
     env:
-      FeedzApiKey: ${{ secrets.FEEDZ_TOKEN }}
       DOTNET_CLI_TELEMETRY_OPTOUT: 1
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
       DOTNET_NOLOGO: true
@@ -39,13 +38,6 @@ jobs:
       with:
         dotnet-version: 8.0.100
 
-    - uses: actions/cache@v3
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
-
     - name: set script permissions
       run: chmod +x ./build.sh
 
@@ -53,8 +45,7 @@ jobs:
       if: github.ref == 'refs/heads/master'
       run: ./build.sh LibsPush
       env:          
-          NuGetApiKey: ${{ secrets.NUGET_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: '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'
   build-desktop-app:
     
     name: "Build HolyClient.Desktop"
@@ -80,14 +71,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.100 
-    
-    - name: Restore NuGet
-      uses: actions/cache@v3
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
 
     - name: set script permissions
       run: chmod +x ./build.sh
@@ -95,7 +78,7 @@ jobs:
     - name: Run './build.cmd'
       run: ./build.sh PublishApp -Runtime ${{ matrix.target }}
       env:  
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: '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'
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
@@ -122,14 +105,6 @@ jobs:
       with:
         dotnet-version: 8.0.100 
 
-    - name: Restore NuGet
-      uses: actions/cache@v3
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
-
     - name: Download All Artifacts
       uses: actions/download-artifact@v4.1.0
       with:
@@ -145,7 +120,7 @@ jobs:
       if: github.ref == 'refs/heads/master'
       run: ./build.sh CreateRelease
       env:  
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: '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'
    
 
       
