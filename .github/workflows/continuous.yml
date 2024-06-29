@@ -41,11 +41,6 @@ jobs:
     - name: set script permissions
       run: chmod +x ./build.sh
 
-    - name: Run './build.cmd'
-      if: github.ref == 'refs/heads/master'
-      run: ./build.sh LibsPush
-      env:          
-          GITHUB_TOKEN: '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'
   build-desktop-app:
     
     name: "Build HolyClient.Desktop"
